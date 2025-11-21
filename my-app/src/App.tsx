@@ -1,60 +1,45 @@
 import { useRef, useEffect } from 'react'
 import './App.css'
-import dijkstraImg from "./assets/dijkstra.png";
-import filippaImg from "./assets/filippa.png";
 
 function App() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const canvasHeight = 500;
-  const canvasWidth = 500;
-
-  function drawBoard(img1: HTMLImageElement, img2: HTMLImageElement) {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 1;
-
-    for (let i = 0; i < 10; i++) {
-      for (let j = 0; j < 10; j++) {
-        const x = j * 50;
-        const y = i * 50;
-
-        if (i === 1 && j === 3) {
-          ctx.drawImage(img1, x, y, 50, 50);
-        }
-        else if(i===8 && j===7){
-          ctx.drawImage(img2, x, y, 50, 50);
-        } else {
-          ctx.strokeRect(x, y, 50, 50);
-        }
-      }
-    }
-  }
-
   useEffect(() => {
-    const img1 = new Image();
-    img1.src = dijkstraImg;
-    const img2 = new Image();
-    img2.src = filippaImg;
+    var id = 0;
+    var duzyBen = document.getElementById("duzyBen")
+      for(var i = 0; i < 10; i++){
+          for(var j = 0; j < 10; j++){
+              var element = document.createElement("div");
+              element.setAttribute("id", String(id));
+              element.setAttribute("class","pole");
+              duzyBen?.appendChild(element);
+              id++;
+            }
+          }
+    var idDijkstry = Math.floor(Math.random() * 99);
+    var idFilippy = Math.floor(Math.random() * 99);
 
-    img2.onload = () => {
-      drawBoard(img1, img2);
-    };
+    document.getElementById(String(idDijkstry))?.classList.add("dijkstra");
+    document.getElementById(String(idFilippy))?.classList.add("filippa");
+
+    var ilePrzeszkod = Math.floor(Math.random() * 10);
+
+    for (var l = 0; l < ilePrzeszkod; l++) {
+        var losoweId = Math.floor(Math.random() * 99);
+        var pole = document.getElementById(String(losoweId));
+
+        while (pole?.classList.contains("dijkstra") || pole?.classList.contains("filippa")) {
+            losoweId = Math.floor(Math.random() * 99);
+            pole = document.getElementById(String(losoweId));
+        }
+
+        pole?.classList.add("przeszkoda");
+    }
+
   }, []);
 
   return (
     <>
-      <canvas
-        ref={canvasRef}
-        width={canvasWidth}
-        height={canvasHeight}
-        style={{ border: "1px solid #000000ff" }}
-      />
+    <div id="duzyBen">
+    </div>
     </>
   )
 }
